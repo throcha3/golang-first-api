@@ -1,6 +1,7 @@
 package mongodb
 
 import (
+	"api/helpers"
 	"context"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -8,8 +9,10 @@ import (
 )
 
 func InitConn() {
+	connectionString := helpers.NewDotEnvHelper().GoDotEnvVariable("MONGODB_CONN_STRING")
+
 	ctx := context.Background()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(connectionString))
 	if err != nil{
 		panic(err)
 	}
